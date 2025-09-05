@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { useLanguage } from "./Language";
 import { Mic } from "lucide-react";
+import { useT } from "./i18n";
 
 function synthesize(text: string, lang: string) {
   if (!("speechSynthesis" in window)) return;
@@ -21,7 +22,7 @@ function getReplyHindi(q: string): string {
   if (s.includes("कार्बन") || s.includes("credit"))
     return "कार्बन क्रेडिट अनुमान के लिए परियोजना जोड़ें। सिस्टम स्वतः CO₂ कैप्चर और क्रेडिट दिखाएगा।";
   if (s.includes("मदद") || s.includes("help"))
-    return "हेल्पलाइन 1800-270-2222 पर कॉल क���ें या सपोर्ट पेज देखें।";
+    return "हेल्पलाइन 1800-270-2222 पर कॉल करें या सपोर्ट पेज देखें।";
   return "मैं आपकी सहायता के लिए तैयार हूँ। परियोजना जोड़ें, और मैं चरण-दर-चरण मदद करूँगा।";
 }
 
