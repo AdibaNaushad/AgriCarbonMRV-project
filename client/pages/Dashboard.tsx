@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
+import { useT } from "@/components/agri/i18n";
 
 interface ProjectRecord {
   id: string;
@@ -55,15 +56,16 @@ export default function Dashboard() {
     return Array.from(map.values()).sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
   }, [items]);
 
+  const t = useT();
   return (
     <div className="container mx-auto px-4 py-8">
-      <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight">Dashboard</h1>
-      <p className="text-sm text-muted-foreground">Live stats of carbon credits, income and co-benefits.</p>
+      <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight">{t("dash.title")}</h1>
+      <p className="text-sm text-muted-foreground">{t("dash.subtitle")}</p>
 
       <div className="grid sm:grid-cols-4 gap-4 mt-6">
-        <Stat title="Projects" value={items.length.toString()} />
-        <Stat title="Credits" value={totals.credits.toFixed(2)} />
-        <Stat title="Income (₹)" value={`₹${Math.round(totals.income).toLocaleString()}`} />
+        <Stat title={t("dash.projects")} value={items.length.toString()} />
+        <Stat title={t("stats.credits")} value={totals.credits.toFixed(2)} />
+        <Stat title={t("stats.income")} value={`₹${Math.round(totals.income).toLocaleString()}`} />
         <Stat title="CO₂ (t)" value={totals.co2.toFixed(2)} />
       </div>
 
@@ -90,7 +92,7 @@ export default function Dashboard() {
         </div>
       </div>
 
-      <h2 className="mt-8 font-semibold">Projects</h2>
+      <h2 className="mt-8 font-semibold">{t("dash.projects")}</h2>
       <div className="mt-3 grid md:grid-cols-2 gap-3">
         {items.map((r) => (
           <div key={r.id} className="rounded-xl border bg-white/70 backdrop-blur p-4 flex gap-3">
@@ -108,7 +110,7 @@ export default function Dashboard() {
           </div>
         ))}
         {items.length === 0 && (
-          <div className="text-sm text-muted-foreground">No projects yet. Add one to see stats.</div>
+          <div className="text-sm text-muted-foreground">{t("dash.noProjects")}</div>
         )}
       </div>
     </div>
