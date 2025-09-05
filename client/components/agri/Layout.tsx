@@ -2,6 +2,7 @@ import { Link, NavLink } from "react-router-dom";
 import { useLanguage, LANG_LABELS, LangCode } from "./Language";
 import { Button } from "@/components/ui/button";
 import { useEffect, useState } from "react";
+import { useT } from "./i18n";
 
 function NavItem({ to, children }: { to: string; children: React.ReactNode }) {
   return (
@@ -18,6 +19,7 @@ function NavItem({ to, children }: { to: string; children: React.ReactNode }) {
 
 export function Layout({ children }: { children: React.ReactNode }) {
   const { lang, setLang, autoDetect } = useLanguage();
+  const t = useT();
 
   useEffect(() => {
     if (!("serviceWorker" in navigator)) return;
@@ -50,13 +52,13 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <div className="container mx-auto px-4 h-16 flex items-center justify-between">
           <Link to="/" className="flex items-center gap-2">
             <div className="h-8 w-8 rounded-lg bg-gradient-to-br from-green-500 to-emerald-600 shadow-inner" />
-            <span className="font-extrabold tracking-tight text-lg">AgriCarbonMRV</span>
+            <span className="font-extrabold tracking-tight text-lg">{t("brand.name")}</span>
           </Link>
           <nav className="hidden md:flex items-center gap-1">
-            <NavItem to="/">Home</NavItem>
-            <NavItem to="/dashboard">Dashboard</NavItem>
-            <NavItem to="/market">Carbon Market</NavItem>
-            <NavItem to="/support">Support</NavItem>
+            <NavItem to="/">{t("nav.home")}</NavItem>
+            <NavItem to="/dashboard">{t("nav.dashboard")}</NavItem>
+            <NavItem to="/market">{t("nav.market")}</NavItem>
+            <NavItem to="/support">{t("nav.support")}</NavItem>
           </nav>
           <div className="flex items-center gap-2">
             <select
@@ -72,7 +74,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
               ))}
             </select>
             <Button asChild className="hidden sm:inline-flex bg-gradient-to-r from-green-600 to-emerald-600">
-              <Link to="/add-project">Add Project</Link>
+              <Link to="/add-project">{t("cta.addProject")}</Link>
             </Button>
           </div>
         </div>
@@ -83,28 +85,28 @@ export function Layout({ children }: { children: React.ReactNode }) {
       <footer className="mt-12 border-t bg-white/70">
         <div className="container mx-auto px-4 py-8 grid gap-6 md:grid-cols-3">
           <div>
-            <h3 className="font-bold mb-2">Team</h3>
-            <p className="text-sm font-semibold text-emerald-700">Innovative Mind</p>
+            <h3 className="font-bold mb-2">{t("footer.team")}</h3>
+            <p className="text-sm font-semibold text-emerald-700">{t("footer.team.name")}</p>
             <p className="text-sm">Leader Naaz (Female), Adiba (Female), Noor (Female)</p>
-            <p className="text-xs text-muted-foreground mt-2">Kolkata, West Bengal</p>
+            <p className="text-xs text-muted-foreground mt-2">{t("footer.location")}</p>
           </div>
           <div>
-            <h3 className="font-bold mb-2">Links</h3>
+            <h3 className="font-bold mb-2">{t("footer.links")}</h3>
             <ul className="text-sm space-y-1">
-              <li><a href="https://agricoop.gov.in/en/about-us">About Us</a></li>
-              <li><button className="underline" onClick={() => setShowContact((v) => !v)}>Contact</button></li>
-              <li><a href="https://farmer.gov.in/Content/privacy-policy.aspx">Privacy Policy</a></li>
-              <li><a href="https://farmer.gov.in/Content/terms-conditions.aspx">Terms & Conditions</a></li>
+              <li><a href="https://agricoop.gov.in/en/about-us">{t("footer.about")}</a></li>
+              <li><button className="underline" onClick={() => setShowContact((v) => !v)}>{t("footer.contact")}</button></li>
+              <li><a href="https://farmer.gov.in/Content/privacy-policy.aspx">{t("footer.privacy")}</a></li>
+              <li><a href="https://farmer.gov.in/Content/terms-conditions.aspx">{t("footer.terms")}</a></li>
             </ul>
             {showContact && (
               <div className="mt-3 text-xs rounded-md border bg-white p-3">
-                <div>Farmer Helpline: <a className="text-emerald-700 underline" href="tel:18002702222">1800-270-2222</a></div>
-                <div>Official Agriculture Portal: <a className="text-emerald-700 underline" href="https://farmer.gov.in/">https://farmer.gov.in/</a></div>
+                <div>{t("footer.helpline")}: <a className="text-emerald-700 underline" href="tel:18002702222">1800-270-2222</a></div>
+                <div>{t("footer.portal")}: <a className="text-emerald-700 underline" href="https://farmer.gov.in/">https://farmer.gov.in/</a></div>
               </div>
             )}
           </div>
           <div>
-            <h3 className="font-bold mb-2">Get the App</h3>
+            <h3 className="font-bold mb-2">{t("footer.getapp")}</h3>
             <div className="flex gap-3">
               <a className="h-10 px-4 rounded-md bg-black text-white text-sm inline-flex items-center" href="#" aria-label="Play Store">Play Store</a>
               <a className="h-10 px-4 rounded-md bg-black text-white text-sm inline-flex items-center" href="#" aria-label="App Store">App Store</a>
