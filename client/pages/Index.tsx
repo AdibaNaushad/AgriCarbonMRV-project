@@ -51,9 +51,9 @@ export default function Index() {
         {/* Left column (stats + projects) */}
         <div className="lg:col-span-8 space-y-4">
           <div className="grid sm:grid-cols-3 gap-4">
-            <StatCard title="tCO₂e" value={totals.co2.toFixed(1)} sub="Captured" icon={<Leaf className="h-4 w-4 text-emerald-700"/>} />
-            <StatCard title="Credits" value={totals.credits.toFixed(0)} sub="Generated" icon={<Coins className="h-4 w-4 text-lime-700"/>} />
-            <StatCard title="Income" value={`₹${Math.round(totals.income).toLocaleString()}`} sub="Estimated" icon={<Sprout className="h-4 w-4 text-green-700"/>} />
+            <StatCard title="tCO₂e" value={totals.co2.toFixed(1)} sub="Captured" color="leaf" icon={<Leaf className="h-4 w-4"/>} />
+            <StatCard title="Credits" value={totals.credits.toFixed(0)} sub="Generated" color="sun" icon={<Coins className="h-4 w-4"/>} />
+            <StatCard title="Income" value={`₹${Math.round(totals.income).toLocaleString()}`} sub="Estimated" color="soil" icon={<Sprout className="h-4 w-4"/>} />
           </div>
 
           <section>
