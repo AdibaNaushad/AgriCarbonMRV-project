@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { estimate, EstimationResult, ProjectInput, ProjectType, sha256Hex } from "@/components/agri/Estimator";
 import { Camera, GalleryHorizontal, MapPin, Mic, Sparkles } from "lucide-react";
 import Confetti from "@/components/agri/Confetti";
+import { useT } from "@/components/agri/i18n";
 
 function useGeo() {
   const [coords, setCoords] = useState<{ lat: number; lon: number } | null>(null);
@@ -19,6 +20,7 @@ function useGeo() {
 
 export default function AddProject() {
   const { coords, detect } = useGeo();
+  const t = useT();
   const [projectType, setProjectType] = useState<ProjectType>("Agroforestry");
   const [areaHa, setAreaHa] = useState<string>("1");
   const [crop, setCrop] = useState<string>("Mixed Crops");
@@ -103,12 +105,12 @@ export default function AddProject() {
     <section className="relative">
       {success && <Confetti />}
       <div className="container mx-auto px-4 py-8">
-        <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight">Add Project</h1>
-        <p className="text-sm text-muted-foreground mt-1">GPS, फोटो और वॉइस से आसान रजिस्ट्रेशन</p>
+        <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight">{t("add.title")}</h1>
+        <p className="text-sm text-muted-foreground mt-1">{t("add.subtitle")}</p>
         {!success ? (
           <form onSubmit={onSubmit} className="mt-6 grid gap-4 max-w-3xl">
             <div className="grid grid-cols-2 gap-3">
-              <label className="text-sm font-medium">Project Type</label>
+              <label className="text-sm font-medium">{t("add.type")}</label>
               <select
                 value={projectType}
                 onChange={(e) => setProjectType(e.target.value as ProjectType)}
@@ -119,7 +121,7 @@ export default function AddProject() {
                 <option>Mixed</option>
               </select>
 
-              <label className="text-sm font-medium">Area (hectares)</label>
+              <label className="text-sm font-medium">{t("add.area")}</label>
               <input
                 type="number"
                 min={0}
@@ -130,7 +132,7 @@ export default function AddProject() {
                 required
               />
 
-              <label className="text-sm font-medium">Crop Type</label>
+              <label className="text-sm font-medium">{t("add.crop")}</label>
               <input
                 type="text"
                 value={crop}
@@ -138,10 +140,10 @@ export default function AddProject() {
                 className="h-10 border rounded-md px-3"
               />
 
-              <label className="text-sm font-medium flex items-center gap-2">Farm Location <MapPin className="h-4 w-4" /></label>
+              <label className="text-sm font-medium flex items-center gap-2">{t("add.location")} <MapPin className="h-4 w-4" /></label>
               <div className="flex gap-2 items-center">
                 <Button type="button" variant="secondary" onClick={detect} className="bg-green-50 text-foreground">
-                  Use GPS
+                  {t("add.gps")}
                 </Button>
                 <a
                   className="text-sm underline"
@@ -152,7 +154,7 @@ export default function AddProject() {
                   }
                   target="_blank"
                 >
-                  Open Map
+                  {t("add.openmap")}
                 </a>
               </div>
               {coords && (
@@ -161,21 +163,21 @@ export default function AddProject() {
             </div>
 
             <div className="mt-2">
-              <label className="text-sm font-medium">Upload Photos</label>
+              <label className="text-sm font-medium">{t("add.upload")}</label>
               <div className="grid grid-cols-3 gap-3 mt-2">
                 <label className="h-24 border rounded-lg flex flex-col items-center justify-center gap-2 cursor-pointer bg-white">
                   <Camera className="h-5 w-5 text-primary" />
-                  <span className="text-xs">Camera</span>
+                  <span className="text-xs">{t("add.camera")}</span>
                   <input className="hidden" type="file" accept="image/*" capture="environment" multiple onChange={(e) => onSelectFiles(e.target.files)} />
                 </label>
                 <label className="h-24 border rounded-lg flex flex-col items-center justify-center gap-2 cursor-pointer bg-white">
                   <GalleryHorizontal className="h-5 w-5 text-primary" />
-                  <span className="text-xs">Gallery</span>
+                  <span className="text-xs">{t("add.gallery")}</span>
                   <input className="hidden" type="file" accept="image/*" multiple onChange={(e) => onSelectFiles(e.target.files)} />
                 </label>
                 <button type="button" onClick={startVoiceFill} className="h-24 border rounded-lg flex flex-col items-center justify-center gap-2 bg-white">
                   <Mic className="h-5 w-5 text-primary" />
-                  <span className="text-xs">Voice Fill</span>
+                  <span className="text-xs">{t("add.voicefill")}</span>
                 </button>
               </div>
               {images.length > 0 && (
@@ -188,41 +190,41 @@ export default function AddProject() {
             </div>
 
             <div>
-              <label className="text-sm font-medium flex items-center gap-2">Description <Mic className="h-4 w-4" /></label>
+              <label className="text-sm font-medium flex items-center gap-2">{t("add.description")} <Mic className="h-4 w-4" /></label>
               <textarea
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
                 className="mt-1 w-full min-h-24 border rounded-md p-3"
-                placeholder="अपने खेत/परियोजना के बारे में बताएँ"
+                placeholder=""
               />
             </div>
 
             <div className="flex gap-3">
               <Button type="submit" className="bg-gradient-to-r from-green-600 to-emerald-600">
-                <Sparkles className="mr-2 h-4 w-4" /> Calculate & Verify
+                <Sparkles className="mr-2 h-4 w-4" /> {t("add.calc")}
               </Button>
               <Button type="button" variant="secondary" onClick={() => { setImages([]); setDescription(""); }}>
-                Reset
+                {t("add.reset")}
               </Button>
             </div>
           </form>
         ) : (
           <div className="mt-6 max-w-3xl bg-white/70 backdrop-blur border rounded-xl p-5">
-            <h2 className="text-xl font-bold">Your project is added and verified successfully!</h2>
-            <p className="text-sm text-muted-foreground">Blockchain Hash: <span className="font-mono break-all">{hash}</span></p>
+            <h2 className="text-xl font-bold">{t("add.success")}</h2>
+            <p className="text-sm text-muted-foreground">{t("add.blockhash")}: <span className="font-mono break-all">{hash}</span></p>
             {result && (
               <div className="grid sm:grid-cols-3 gap-4 mt-4">
-                <Stat title="CO₂ Captured" value={`${result.co2Tons} tCO₂e`} />
-                <Stat title="Carbon Credits" value={`${result.credits}`} />
-                <Stat title="Income (₹)" value={`₹${result.incomeINR.toLocaleString()}`} />
-                <Progress title="Water Saved" percent={Math.min(100, Math.round(result.waterSavedKL / 2))} tone="emerald" />
-                <Progress title="Environment" percent={result.envScore} tone="green" />
-                <Progress title="Community" percent={result.communityImpact} tone="lime" />
+                <Stat title={t("stats.co2")} value={`${result.co2Tons} tCO₂e`} />
+                <Stat title={t("stats.credits")} value={`${result.credits}`} />
+                <Stat title={t("stats.income")} value={`₹${result.incomeINR.toLocaleString()}`} />
+                <Progress title={t("stats.water")} percent={Math.min(100, Math.round(result.waterSavedKL / 2))} tone="emerald" />
+                <Progress title={t("stats.env")} percent={result.envScore} tone="green" />
+                <Progress title={t("stats.community")} percent={result.communityImpact} tone="lime" />
               </div>
             )}
             <div className="mt-5 flex gap-3">
-              <a href="/dashboard" className="inline-flex h-10 px-4 items-center justify-center rounded-md bg-primary text-primary-foreground">Go to Dashboard</a>
-              <a href="/" className="inline-flex h-10 px-4 items-center justify-center rounded-md border">Back Home</a>
+              <a href="/dashboard" className="inline-flex h-10 px-4 items-center justify-center rounded-md bg-primary text-primary-foreground">{t("add.gotoDash")}</a>
+              <a href="/" className="inline-flex h-10 px-4 items-center justify-center rounded-md border">{t("add.backHome")}</a>
             </div>
           </div>
         )}
