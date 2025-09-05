@@ -36,12 +36,13 @@ export default function MarketGraph() {
   }, [items]);
 
   const total = items.reduce((a, r) => a + (r.est?.credits || 0), 0);
+  const t = useT();
 
   return (
     <div className="rounded-xl border bg-white/70 backdrop-blur p-3">
       <div className="flex items-center justify-between mb-2">
-        <div className="text-sm font-semibold">Market Credits (live)</div>
-        <div className="text-xs text-muted-foreground">Total: {total.toFixed(0)}</div>
+        <div className="text-sm font-semibold">{t("home.graph.title")}</div>
+        <div className="text-xs text-muted-foreground">{t("home.graph.total")}: {total.toFixed(0)}</div>
       </div>
       <div className="h-36">
         <ResponsiveContainer width="100%" height="100%">
