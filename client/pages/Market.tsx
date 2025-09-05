@@ -1,5 +1,6 @@
 import { Building2, ShieldCheck, Leaf, Globe, Sparkles, ShoppingCart } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useT } from "@/components/agri/i18n";
 
 interface ProjectRecord {
   id: string;
@@ -17,6 +18,7 @@ function loadProjects(): ProjectRecord[] {
 export default function Market() {
   const items = loadProjects();
   const totalCredits = items.reduce((a, r) => a + (r.est?.credits || 0), 0);
+  const t = useT();
 
   return (
     <div className="container mx-auto px-4 py-10">
@@ -25,31 +27,31 @@ export default function Market() {
         <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 relative">
           <div>
             <div className="inline-flex items-center gap-2 rounded-full border bg-white px-3 py-1 text-xs mb-3">
-              <ShieldCheck className="h-4 w-4 text-emerald-600" /> Verified, Farmer-First Supply
+              <ShieldCheck className="h-4 w-4 text-emerald-600" /> {t("market.badge")}
             </div>
-            <h1 className="text-3xl md:text-4xl font-extrabold tracking-tight leading-tight">Buy High-Impact Carbon Credits</h1>
-            <p className="text-muted-foreground mt-2">Direct from smallholder farmers. Transparent MRV with blockchain proof and satellite-backed estimates.</p>
+            <h1 className="text-3xl md:text-4xl font-extrabold tracking-tight leading-tight">{t("market.title")}</h1>
+            <p className="text-muted-foreground mt-2">{t("market.subtitle")}</p>
             <div className="mt-4 flex flex-wrap gap-3">
-              <Button className="bg-gradient-to-r from-green-600 to-emerald-600"><ShoppingCart className="mr-2 h-4 w-4" /> Get Credits</Button>
-              <a href="/support" className="inline-flex h-10 px-4 items-center rounded-md border text-sm">Talk to us</a>
+              <Button className="bg-gradient-to-r from-green-600 to-emerald-600"><ShoppingCart className="mr-2 h-4 w-4" /> {t("market.get")}</Button>
+              <a href="/support" className="inline-flex h-10 px-4 items-center rounded-md border text-sm">{t("market.talk")}</a>
             </div>
           </div>
           <div className="grid grid-cols-3 gap-3 w-full md:w-auto">
-            <KPI label="Available Credits" value={totalCredits.toFixed(0)} />
-            <KPI label="Projects" value={items.length.toString()} />
-            <KPI label="Countries" value="1+" />
+            <KPI label={t("market.kpi.available")} value={totalCredits.toFixed(0)} />
+            <KPI label={t("market.kpi.projects")} value={items.length.toString()} />
+            <KPI label={t("market.kpi.countries")} value="1+" />
           </div>
         </div>
       </section>
 
       <section className="mt-8 grid md:grid-cols-3 gap-4">
-        <Value icon={<Leaf className="h-5 w-5 text-green-700" />} title="Real Climate Impact" desc="Agroforestry, Rice and Mixed projects with tangible co-benefits: water saved, soil health, livelihoods." />
-        <Value icon={<ShieldCheck className="h-5 w-5 text-emerald-700" />} title="Auditable & Tamper-Proof" desc="Each project gets a SHA-256 hash for verification. Clean, traceable provenance." />
-        <Value icon={<Building2 className="h-5 w-5 text-lime-700" />} title="Corporate Ready" desc="Purchase at scale, receive receipts, export docs. Perfect for ESG and CSR reporting." />
+        <Value icon={<Leaf className="h-5 w-5 text-green-700" />} title={t("market.value.impact")} desc={t("market.value.impact.desc")} />
+        <Value icon={<ShieldCheck className="h-5 w-5 text-emerald-700" />} title={t("market.value.audit")} desc={t("market.value.audit.desc")} />
+        <Value icon={<Building2 className="h-5 w-5 text-lime-700" />} title={t("market.value.corp")} desc={t("market.value.corp.desc")} />
       </section>
 
       <section className="mt-10">
-        <h2 className="font-semibold mb-2">Featured Farmer Projects</h2>
+        <h2 className="font-semibold mb-2">{t("market.featured")}</h2>
         <div className="grid md:grid-cols-2 gap-3">
           {items.slice(0, 6).map((r) => (
             <div key={r.id} className="rounded-xl border bg-white/70 backdrop-blur p-4 flex gap-3">
@@ -63,8 +65,8 @@ export default function Market() {
                 <div className="text-xs text-muted-foreground">Area: {r.payload.areaHa} ha • ID: {r.id}</div>
                 <div className="text-sm mt-1">Credits: <b>{r.est.credits}</b></div>
                 <div className="mt-2 flex gap-2">
-                  <Button size="sm" className="bg-emerald-600">Buy</Button>
-                  <a className="text-xs underline self-center" href="/support">Learn more</a>
+                  <Button size="sm" className="bg-emerald-600">{t("market.buy")}</Button>
+                  <a className="text-xs underline self-center" href="/support">{t("market.learn")}</a>
                 </div>
               </div>
             </div>
