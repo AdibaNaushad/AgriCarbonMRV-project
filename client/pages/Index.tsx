@@ -14,7 +14,7 @@ import Support from "./Support";
 export default function Index() {
   const t = useT();
   return (
-    <div className="relative">
+    <div className="relative" id="top">
       <AnimatedBackground />
       <section className="relative container mx-auto px-4 pt-10 pb-8 sm:pt-16 sm:pb-12">
         <div className="grid lg:grid-cols-2 gap-8 items-center">
