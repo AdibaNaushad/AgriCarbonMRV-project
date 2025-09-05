@@ -1,20 +1,22 @@
 import Chatbot from "@/components/agri/Chatbot";
+import { useT } from "@/components/agri/i18n";
 
 export default function Support() {
+  const t = useT();
   return (
     <div className="container mx-auto px-4 py-8">
-      <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight">Support & Help Center</h1>
-      <p className="text-sm text-muted-foreground">Chatbot, FAQs, tutorials and helpline.</p>
+      <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight">{t("support.title")}</h1>
+      <p className="text-sm text-muted-foreground">{t("support.subtitle")}</p>
 
       <div className="mt-6 grid lg:grid-cols-3 gap-4">
         <div className="lg:col-span-2 space-y-4">
           <section className="rounded-xl border bg-white/70 backdrop-blur p-4">
             <h2 className="font-semibold">About Carbon Credits</h2>
-            <p className="text-sm text-muted-foreground mt-1">कार्बन क्रेडिट वह प्रमाण है जो CO₂ उत्सर्जन घटाने/सेक्वेस्ट्रेशन करने पर मिलता है। एक क्रेडिट ≈ 1 टन CO₂e. हमारे प्लेटफॉर्म पर परियोजना जोड़ते ही अनुमानित क्रेडिट और आय दिखाई जाती है।</p>
+            <p className="text-sm text-muted-foreground mt-1">{t("support.about")}</p>
           </section>
 
           <section className="rounded-xl border bg-white/70 backdrop-blur p-4">
-            <h2 className="font-semibold">FAQ</h2>
+            <h2 className="font-semibold">{t("support.faq")}</h2>
             <ul className="text-sm list-disc pl-5 mt-2 space-y-1">
               <li>कैमरा कैसे खुलेगा? — Add Project में Camera चुनें और फोटो लें।</li>
               <li>आय कैसे गिनी जाती है? — अनुमानित क्रेडिट × ₹800 प्रति क्रेडिट।</li>
