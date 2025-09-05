@@ -43,7 +43,20 @@ export default function AddProject() {
   }, []);
 
   const startVoiceFill = () => {
-    voiceRef.current?.start?.();
+    const rec = voiceRef.current;
+    if (!rec) return;
+    try {
+      if ((rec as any)._running) {
+        rec.stop();
+        setTimeout(() => { try { rec.start(); } catch {} }, 300);
+      } else {
+        (rec as any)._running = true;
+        rec.onstart = () => ((rec as any)._running = true);
+        rec.onend = () => ((rec as any)._running = false);
+        rec.onerror = () => ((rec as any)._running = false);
+        rec.start();
+      }
+    } catch {}
   };
 
   const onSelectFiles = (files: FileList | null) => {
