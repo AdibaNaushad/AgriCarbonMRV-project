@@ -1,113 +1,177 @@
-import AnimatedBackground from "@/components/agri/AnimatedBackground";
-import VoiceAssistant from "@/components/agri/VoiceAssistant";
-import { Button } from "@/components/ui/button";
+import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
-import DataGallery from "@/components/agri/DataGallery";
-import MarketGraph from "@/components/agri/MarketGraph";
-import { useT } from "@/components/agri/i18n";
-import { Satellite, Sprout, Coins, Mic, ArrowRight } from "lucide-react";
+import { estimate, ProjectType } from "@/components/agri/Estimator";
+import { Button } from "@/components/ui/button";
+import { CheckCircle2, Sprout, Coins, Leaf, MapPin, Sparkles } from "lucide-react";
+
+interface ProjectRecord {
+  id: string;
+  ts: number;
+  est: { co2Tons: number; credits: number; incomeINR: number; waterSavedKL: number; envScore: number; communityImpact: number };
+  payload: { crop: string; projectType: ProjectType; areaHa: number; lat?: number; lon?: number };
+  images: string[];
+  description: string;
+  hash: string;
+}
+
+function loadProjects(): ProjectRecord[] {
+  try { return JSON.parse(localStorage.getItem("agrimrv.projects") || "[]"); } catch { return []; }
+}
+
+function formatDate(ts: number) {
+  const d = new Date(ts);
+  return d.toLocaleDateString();
+}
 
 export default function Index() {
-  const t = useT();
+  const [items, setItems] = useState<ProjectRecord[]>([]);
+  useEffect(() => { setItems(loadProjects()); }, []);
+
+  const totals = useMemo(() => items.reduce((a, r) => ({
+    co2: a.co2 + r.est.co2Tons,
+    credits: a.credits + r.est.credits,
+    income: a.income + r.est.incomeINR,
+    water: a.water + r.est.waterSavedKL,
+    env: Math.min(100, Math.round((a.env + r.est.envScore) / (a.count + 1))),
+    community: Math.min(100, Math.round((a.community + r.est.communityImpact) / (a.count + 1))),
+    count: a.count + 1,
+  }), { co2: 0, credits: 0, income: 0, water: 0, env: 60, community: 60, count: 0 }), [items]);
+
   return (
-    <div className="relative">
-      <AnimatedBackground />
-      <section className="relative container mx-auto px-4 pt-10 pb-8 sm:pt-16 sm:pb-12">
-        <div className="grid lg:grid-cols-2 gap-8 items-center">
-          <div>
-            <div className="inline-flex items-center gap-2 rounded-full border bg-white/70 px-3 py-1 text-xs mb-3">
-              <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" /> {t("hero.badge")}
-            </div>
-            <h1 className="text-3xl sm:text-5xl font-extrabold tracking-tight leading-tight">
-              {t("hero.tagline")}
-            </h1>
-            <p className="mt-3 text-base sm:text-lg text-muted-foreground">
-              {t("hero.subline")}
-            </p>
-            <div className="mt-6 flex flex-wrap gap-3">
-              <Button asChild size="lg" className="bg-gradient-to-r from-green-600 to-emerald-600 shadow-lg">
-                <Link to="/add-project">{t("cta.addProject")}</Link>
-              </Button>
-              <Button asChild size="lg" variant="secondary">
-                <a href="#learn">{t("cta.learnMore")}</a>
-              </Button>
-            </div>
-            <div className="mt-6"><VoiceAssistant /></div>
+    <div className="container mx-auto px-4 py-8">
+      <div className="flex items-center justify-between flex-wrap gap-3">
+        <div>
+          <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight">Your Carbon Dashboard</h1>
+          <p className="text-sm text-muted-foreground">Overview of your carbon credits, income and projects</p>
+        </div>
+        <Button asChild className="bg-gradient-to-r from-green-600 to-emerald-600"><Link to="/add-project"><Sparkles className="mr-2 h-4 w-4"/>Add Project</Link></Button>
+      </div>
+
+      <div className="mt-6 grid gap-4 lg:grid-cols-12">
+        {/* Left column (stats + projects) */}
+        <div className="lg:col-span-8 space-y-4">
+          <div className="grid sm:grid-cols-3 gap-4">
+            <StatCard title="tCO₂e" value={totals.co2.toFixed(1)} sub="Captured" icon={<Leaf className="h-4 w-4 text-emerald-700"/>} />
+            <StatCard title="Credits" value={totals.credits.toFixed(0)} sub="Generated" icon={<Coins className="h-4 w-4 text-lime-700"/>} />
+            <StatCard title="Income" value={`₹${Math.round(totals.income).toLocaleString()}`} sub="Estimated" icon={<Sprout className="h-4 w-4 text-green-700"/>} />
           </div>
-          <div className="relative">
-            <div className="rounded-2xl border bg-white/60 backdrop-blur p-4 shadow-sm">
-              <div className="grid grid-cols-3 gap-3 text-center">
-                <MiniCard icon={<Satellite className="h-5 w-5 text-emerald-600" />} title="Satellite" desc={t("mini.satellite")} />
-                <MiniCard icon={<Sprout className="h-5 w-5 text-green-600" />} title="Farms" desc={t("mini.farms")} />
-                <MiniCard icon={<Coins className="h-5 w-5 text-lime-600" />} title="Income" desc={t("mini.income")} />
-              </div>
-              <div className="mt-4 relative h-56 rounded-xl bg-gradient-to-br from-emerald-100 to-green-50 overflow-hidden">
-                <svg className="absolute inset-0 w-full h-full" viewBox="0 0 400 200" fill="none">
-                  <defs>
-                    <linearGradient id="ln" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stopColor="#22c55e"/><stop offset="100%" stopColor="#10b981"/></linearGradient>
-                  </defs>
-                  <circle cx="340" cy="30" r="14" stroke="url(#ln)" strokeWidth="3" fill="white" />
-                  <circle cx="60" cy="120" r="6" fill="#16a34a" />
-                  <circle cx="120" cy="160" r="6" fill="#16a34a" />
-                  <circle cx="200" cy="110" r="6" fill="#16a34a" />
-                  <path d="M340 30 C 300 60, 200 60, 60 120" stroke="url(#ln)" strokeWidth="2" strokeDasharray="4 6" />
-                  <path d="M340 30 C 300 90, 240 120, 120 160" stroke="url(#ln)" strokeWidth="2" strokeDasharray="4 6" />
-                  <path d="M340 30 C 310 60, 260 90, 200 110" stroke="url(#ln)" strokeWidth="2" strokeDasharray="4 6" />
-                </svg>
-                <div className="absolute bottom-3 left-3 right-3 grid grid-cols-3 gap-2">
-                  <Badge>CO₂ calc: live</Badge>
-                  <Badge>Credits: +12</Badge>
-                  <Badge>₹: +9,600</Badge>
+
+          <section>
+            <h2 className="font-semibold mb-2">Your Projects</h2>
+            <div className="grid sm:grid-cols-2 xl:grid-cols-3 gap-3">
+              {items.slice(0,6).map((r) => (
+                <div key={r.id} className="rounded-xl border bg-white/70 backdrop-blur p-4">
+                  <div className="flex gap-3">
+                    {r.images?.[0] ? <img src={r.images[0]} alt="project" className="h-16 w-24 object-cover rounded-md border"/> : <div className="h-16 w-24 rounded-md bg-emerald-100 border"/>}
+                    <div className="flex-1">
+                      <div className="text-sm font-semibold">{r.payload.projectType} – {r.payload.crop}</div>
+                      <div className="text-[11px] text-muted-foreground">{formatDate(r.ts)} • {r.payload.areaHa} ha</div>
+                      <div className="text-sm mt-1">Credits: <b>{r.est.credits}</b></div>
+                    </div>
+                  </div>
+                  {r.payload.lat && (
+                    <div className="mt-2 text-[11px] text-muted-foreground flex items-center gap-1"><MapPin className="h-3 w-3"/> {r.payload.lat.toFixed(3)}, {r.payload.lon?.toFixed(3)}</div>
+                  )}
                 </div>
-              </div>
-              <div className="mt-4">
-                <MarketGraph />
-              </div>
-              <div className="mt-4">
-                <DataGallery />
-              </div>
+              ))}
+              {items.length === 0 && (
+                <div className="rounded-xl border bg-white/70 backdrop-blur p-6 text-sm text-muted-foreground">No projects yet. Add one to see results.</div>
+              )}
             </div>
-            <div className="mt-3 text-xs text-muted-foreground">
-              The system connects satellites to farmlands, computes carbon credits, and pays farmers in rupees.
-            </div>
+          </section>
+        </div>
+
+        {/* Right column (calculator + benefits + activity + cta) */}
+        <div className="lg:col-span-4 space-y-4">
+          <CalculatorCard/>
+          <BenefitsCard water={totals.water} env={totals.env} community={totals.community} />
+          <ActivityCard items={items.slice(0,4)} />
+          <div className="rounded-xl border bg-gradient-to-br from-emerald-600 to-green-600 text-white p-4">
+            <div className="font-semibold">Create your next green project</div>
+            <p className="text-sm text-white/90">Use GPS, Camera and Voice to onboard in minutes.</p>
+            <Button asChild variant="secondary" className="mt-3 bg-white text-emerald-700 hover:bg-white/90"><Link to="/add-project">Add Project</Link></Button>
           </div>
         </div>
-      </section>
-
-      <section id="learn" className="container mx-auto px-4 pb-16">
-        <div className="grid md:grid-cols-3 gap-4">
-          <Feature title={t("voice.idle")} desc="" icon={<Mic className="h-5 w-5" />} />
-          <Feature title="GPS & Camera" desc="" icon={<ArrowRight className="h-5 w-5" />} />
-          <Feature title="Blockchain Verified" desc="" icon={<ArrowRight className="h-5 w-5" />} />
-        </div>
-      </section>
+      </div>
     </div>
   );
 }
 
-function Badge({ children }: { children: React.ReactNode }) {
-  return (
-    <div className="text-[11px] rounded-md bg-white/70 backdrop-blur border px-2 py-1 text-center font-medium">
-      {children}
-    </div>
-  );
-}
-
-function MiniCard({ icon, title, desc }: { icon: React.ReactNode; title: string; desc: string }) {
-  return (
-    <div className="rounded-lg border p-3 bg-white">
-      <div className="flex items-center justify-center h-8 w-8 rounded-md bg-emerald-50 mx-auto mb-2">{icon}</div>
-      <div className="text-sm font-semibold">{title}</div>
-      <div className="text-xs text-muted-foreground">{desc}</div>
-    </div>
-  );
-}
-
-function Feature({ title, desc, icon }: { title: string; desc: string; icon: React.ReactNode }) {
+function StatCard({ title, value, sub, icon }: { title: string; value: string; sub: string; icon: React.ReactNode }) {
   return (
     <div className="rounded-xl border bg-white/70 backdrop-blur p-4">
-      <div className="flex items-center gap-2 text-emerald-700 font-semibold"><span className="h-6 w-6 inline-flex items-center justify-center rounded-md bg-emerald-50">{icon}</span> {title}</div>
-      <div className="text-sm text-muted-foreground mt-1">{desc}</div>
+      <div className="text-xs text-muted-foreground flex items-center gap-2">{icon}<span>{title}</span></div>
+      <div className="text-2xl font-extrabold mt-1">{value}</div>
+      <div className="text-[11px] text-muted-foreground">{sub}</div>
+    </div>
+  );
+}
+
+function CalculatorCard() {
+  const [type, setType] = useState<ProjectType>("Agroforestry");
+  const [area, setArea] = useState<string>("1.0");
+  const res = estimate({ projectType: type, areaHa: parseFloat(area) || 0, crop: "Mixed" });
+  return (
+    <div className="rounded-xl border bg-white/70 backdrop-blur p-4">
+      <div className="font-semibold mb-2">Carbon Credit Calculator</div>
+      <div className="grid grid-cols-2 gap-2">
+        <select className="h-9 border rounded-md px-2 bg-white" value={type} onChange={(e)=>setType(e.target.value as ProjectType)}>
+          <option>Agroforestry</option>
+          <option>Rice</option>
+          <option>Mixed</option>
+        </select>
+        <input className="h-9 border rounded-md px-2" type="number" min={0} step="0.1" value={area} onChange={(e)=>setArea(e.target.value)} placeholder="Area (ha)"/>
+      </div>
+      <div className="mt-3 grid grid-cols-3 gap-2 text-center">
+        <CalcBadge label="CO₂" value={`${res.co2Tons}t`} />
+        <CalcBadge label="Credits" value={`${res.credits}`} />
+        <CalcBadge label="₹" value={`${res.incomeINR.toLocaleString()}`} />
+      </div>
+    </div>
+  );
+}
+function CalcBadge({ label, value }: { label: string; value: string }) {
+  return (
+    <div className="rounded-md border bg-white px-2 py-1">
+      <div className="text-[11px] text-muted-foreground">{label}</div>
+      <div className="text-sm font-semibold">{value}</div>
+    </div>
+  );
+}
+
+function BenefitsCard({ water, env, community }: { water: number; env: number; community: number }) {
+  return (
+    <div className="rounded-xl border bg-white/70 backdrop-blur p-4">
+      <div className="font-semibold mb-2">Carbon Credits Benefits</div>
+      <ul className="text-sm space-y-2">
+        <Benefit text={`Water saved: ~${Math.round(water)} KL`} />
+        <Benefit text={`Environment protected: ${env}%`} />
+        <Benefit text={`Community impacted: ${community}%`} />
+      </ul>
+    </div>
+  );
+}
+function Benefit({ text }: { text: string }) {
+  return (
+    <li className="flex items-center gap-2"><CheckCircle2 className="h-4 w-4 text-emerald-600"/>{text}</li>
+  );
+}
+
+function ActivityCard({ items }: { items: ProjectRecord[] }) {
+  return (
+    <div className="rounded-xl border bg-white/70 backdrop-blur p-4">
+      <div className="font-semibold mb-2">Recent Activity</div>
+      <div className="space-y-2">
+        {items.map((r) => (
+          <div key={r.id} className="text-sm flex items-center justify-between">
+            <span>{r.payload.projectType} – {r.payload.crop}</span>
+            <span className="text-muted-foreground text-xs">+{r.est.credits} cr • {formatDate(r.ts)}</span>
+          </div>
+        ))}
+        {items.length === 0 && (
+          <div className="text-sm text-muted-foreground">No recent activity.</div>
+        )}
+      </div>
     </div>
   );
 }
