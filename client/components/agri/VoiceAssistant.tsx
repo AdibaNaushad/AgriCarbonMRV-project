@@ -20,7 +20,7 @@ function getReplyHindi(q: string): string {
   if (s.includes("पानी") || s.includes("water"))
     return "धान और मिश्रित खेती में पानी की बचत के बेहतर अवसर हैं। स्मार्ट सिंचाई अपनाएँ।";
   if (s.includes("कार्बन") || s.includes("credit"))
-    return "कार्बन क्रेडिट अनुमान के लिए परियोजना जोड़ें। सिस्टम स्वतः CO₂ कैप्चर और क्रेडिट दिखाएगा।";
+    return "कार्बन क्रेडिट अनुमान के लिए परियोजना जोड़ें। सिस्टम स्वतः CO₂ कैप्चर और क्रेड��ट दिखाएगा।";
   if (s.includes("मदद") || s.includes("help"))
     return "हेल्पलाइन 1800-270-2222 पर कॉल करें या सपोर्ट पेज देखें।";
   return "मैं आपकी सहायता के लिए तैयार हूँ। परियोजना जोड़ें, और मैं चरण-दर-चरण मदद करूँगा।";
@@ -88,7 +88,7 @@ export default function VoiceAssistant() {
           <Mic />
         </Button>
         <div className="text-sm text-muted-foreground">
-          {listening ? "सुन रहा है..." : "बोलने के लिए माइक बटन दबाएँ"}
+          {listening ? t("voice.listening") : t("voice.idle")}
         </div>
       </div>
       {(transcript || reply) && (
