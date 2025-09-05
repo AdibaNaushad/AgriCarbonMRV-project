@@ -28,6 +28,7 @@ function getReplyHindi(q: string): string {
 
 export default function VoiceAssistant() {
   const { lang } = useLanguage();
+  const t = useT();
   const [listening, setListening] = useState(false);
   const [transcript, setTranscript] = useState<string>("");
   const [reply, setReply] = useState<string>("");
