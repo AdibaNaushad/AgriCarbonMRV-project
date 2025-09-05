@@ -1,7 +1,7 @@
 import { Link, NavLink } from "react-router-dom";
 import { useLanguage, LANG_LABELS, LangCode } from "./Language";
 import { Button } from "@/components/ui/button";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 function NavItem({ to, children }: { to: string; children: React.ReactNode }) {
   return (
