@@ -97,11 +97,22 @@ export default function Index() {
   );
 }
 
-function StatCard({ title, value, sub, icon }: { title: string; value: string; sub: string; icon: React.ReactNode }) {
+function StatCard({ title, value, sub, icon, color }: { title: string; value: string; sub: string; icon: React.ReactNode; color: "leaf" | "water" | "sky" | "soil" | "sun" }) {
+  const map: Record<string, { badge: string; text: string; grad: string; border: string }> = {
+    leaf: { badge: "bg-eco-leaf/15 text-eco-leaf", text: "text-eco-leaf", grad: "bg-gradient-to-br from-eco-leaf/5 to-white", border: "border-eco-leaf/20" },
+    water: { badge: "bg-eco-water/15 text-eco-water", text: "text-eco-water", grad: "bg-gradient-to-br from-eco-water/5 to-white", border: "border-eco-water/20" },
+    sky: { badge: "bg-eco-sky/15 text-eco-sky", text: "text-eco-sky", grad: "bg-gradient-to-br from-eco-sky/5 to-white", border: "border-eco-sky/20" },
+    soil: { badge: "bg-eco-soil/15 text-eco-soil", text: "text-eco-soil", grad: "bg-gradient-to-br from-eco-soil/5 to-white", border: "border-eco-soil/20" },
+    sun: { badge: "bg-eco-sun/15 text-eco-sun", text: "text-eco-sun", grad: "bg-gradient-to-br from-eco-sun/5 to-white", border: "border-eco-sun/20" },
+  };
+  const cls = map[color];
   return (
-    <div className="rounded-xl border bg-white/70 backdrop-blur p-4">
-      <div className="text-xs text-muted-foreground flex items-center gap-2">{icon}<span>{title}</span></div>
-      <div className="text-2xl font-extrabold mt-1">{value}</div>
+    <div className={`rounded-xl border ${cls.border} ${cls.grad} bg-white/70 backdrop-blur p-4`}>
+      <div className="text-xs text-muted-foreground flex items-center gap-2">
+        <span className={`h-6 w-6 inline-flex items-center justify-center rounded-md ${cls.badge}`}>{icon}</span>
+        <span className="font-medium">{title}</span>
+      </div>
+      <div className={`text-2xl font-extrabold mt-1 ${cls.text}`}>{value}</div>
       <div className="text-[11px] text-muted-foreground">{sub}</div>
     </div>
   );
