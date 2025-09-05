@@ -3,6 +3,7 @@ import { useLanguage, LANG_LABELS, LangCode } from "./Language";
 import { Button } from "@/components/ui/button";
 import { useEffect, useState } from "react";
 import { useT } from "./i18n";
+import FloatingVoice from "./FloatingVoice";
 import { Leaf, Phone, Mail, MapPin, Facebook, Twitter, Instagram, Youtube, Apple, Play } from "lucide-react";
 
 function NavItem({ to, children }: { to: string; children: React.ReactNode }) {
