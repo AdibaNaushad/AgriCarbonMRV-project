@@ -13,6 +13,7 @@ import { LanguageProvider } from "@/components/agri/Language";
 import AddProject from "./pages/AddProject";
 import Dashboard from "./pages/Dashboard";
 import Support from "./pages/Support";
+import Placeholder from "./pages/Placeholder";
 
 const queryClient = new QueryClient();
 
