@@ -8,6 +8,10 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
+import { Layout } from "@/components/agri/Layout";
+import { LanguageProvider } from "@/components/agri/Language";
+import AddProject from "./pages/AddProject";
+import Placeholder from "./pages/Placeholder";
 
 const queryClient = new QueryClient();
 
@@ -16,13 +20,25 @@ const App = () => (
     <TooltipProvider>
       <Toaster />
       <Sonner />
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Index />} />
-          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </BrowserRouter>
+      <LanguageProvider>
+        <BrowserRouter>
+          <Layout>
+            <Routes>
+              <Route path="/" element={<Index />} />
+              <Route path="/add-project" element={<AddProject />} />
+              <Route path="/dashboard" element={<Placeholder title="Dashboard" />} />
+              <Route path="/market" element={<Placeholder title="Carbon Market" />} />
+              <Route path="/support" element={<Placeholder title="Support & Help Center" />} />
+              <Route path="/about" element={<Placeholder title="About Us" />} />
+              <Route path="/contact" element={<Placeholder title="Contact" />} />
+              <Route path="/privacy" element={<Placeholder title="Privacy Policy" />} />
+              <Route path="/terms" element={<Placeholder title="Terms & Conditions" />} />
+              {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </Layout>
+        </BrowserRouter>
+      </LanguageProvider>
     </TooltipProvider>
   </QueryClientProvider>
 );
