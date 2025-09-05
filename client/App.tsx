@@ -27,9 +27,9 @@ const App = () => (
             <Routes>
               <Route path="/" element={<Index />} />
               <Route path="/add-project" element={<AddProject />} />
-              <Route path="/dashboard" element={<Placeholder title="Dashboard" />} />
+              <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/market" element={<Placeholder title="Carbon Market" />} />
-              <Route path="/support" element={<Placeholder title="Support & Help Center" />} />
+              <Route path="/support" element={<Support />} />
               <Route path="/about" element={<Placeholder title="About Us" />} />
               <Route path="/contact" element={<Placeholder title="Contact" />} />
               <Route path="/privacy" element={<Placeholder title="Privacy Policy" />} />
