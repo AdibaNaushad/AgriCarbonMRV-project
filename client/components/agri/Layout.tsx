@@ -55,10 +55,10 @@ export function Layout({ children }: { children: React.ReactNode }) {
             <span className="font-extrabold tracking-tight text-lg">{t("brand.name")}</span>
           </Link>
           <nav className="hidden md:flex items-center gap-1">
-            <NavItem to="/">{t("nav.home")}</NavItem>
-            <NavItem to="/dashboard">{t("nav.dashboard")}</NavItem>
-            <NavItem to="/market">{t("nav.market")}</NavItem>
-            <NavItem to="/support">{t("nav.support")}</NavItem>
+            <a href="#top" className="px-3 py-2 rounded-md text-sm font-medium hover:bg-accent/20 text-foreground/80">{t("nav.home")}</a>
+            <a href="#dashboard" className="px-3 py-2 rounded-md text-sm font-medium hover:bg-accent/20 text-foreground/80">{t("nav.dashboard")}</a>
+            <a href="#market" className="px-3 py-2 rounded-md text-sm font-medium hover:bg-accent/20 text-foreground/80">{t("nav.market")}</a>
+            <a href="#support" className="px-3 py-2 rounded-md text-sm font-medium hover:bg-accent/20 text-foreground/80">{t("nav.support")}</a>
           </nav>
           <div className="flex items-center gap-2">
             <select
@@ -74,7 +74,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
               ))}
             </select>
             <Button asChild className="hidden sm:inline-flex bg-gradient-to-r from-green-600 to-emerald-600">
-              <Link to="/add-project">{t("cta.addProject")}</Link>
+              <a href="#add-project">{t("cta.addProject")}</a>
             </Button>
           </div>
         </div>
