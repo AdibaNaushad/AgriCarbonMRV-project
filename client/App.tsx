@@ -13,6 +13,7 @@ import AddProject from "./pages/AddProject";
 import Dashboard from "./pages/Dashboard";
 import Support from "./pages/Support";
 import Placeholder from "./pages/Placeholder";
+import Market from "./pages/Market";
 
 const queryClient = new QueryClient();
 
@@ -27,7 +28,7 @@ const App = () => (
               <Route path="/" element={<Index />} />
               <Route path="/add-project" element={<AddProject />} />
               <Route path="/dashboard" element={<Dashboard />} />
-              <Route path="/market" element={<Placeholder title="Carbon Market" />} />
+              <Route path="/market" element={<Market />} />
               <Route path="/support" element={<Support />} />
               <Route path="/about" element={<Placeholder title="About Us" />} />
               <Route path="/contact" element={<Placeholder title="Contact" />} />
