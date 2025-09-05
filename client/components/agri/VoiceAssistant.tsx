@@ -15,13 +15,13 @@ function synthesize(text: string, lang: string) {
 function getReplyHindi(q: string): string {
   const s = q.toLowerCase();
   if (s.includes("income") || s.includes("आय") || s.includes("कमाई"))
-    return "आपके खेत से कार्बन क्रेडिट के माध्यम से अतिरिक्त आय संभव है। परियोजना जोड़ें और अनुमान देख��ं।";
+    return "आपके खेत से कार्बन क्रेडिट के माध्यम से अतिरिक्त आय संभव है। परियोजना जोड़ें और अनुमान देखें।";
   if (s.includes("पानी") || s.includes("water"))
     return "धान और मिश्रित खेती में पानी की बचत के बेहतर अवसर हैं। स्मार्ट सिंचाई अपनाएँ।";
   if (s.includes("कार्बन") || s.includes("credit"))
     return "कार्बन क्रेडिट अनुमान के लिए परियोजना जोड़ें। सिस्टम स्वतः CO₂ कैप्चर और क्रेडिट दिखाएगा।";
   if (s.includes("मदद") || s.includes("help"))
-    return "हेल्पलाइन 1800-270-2222 पर कॉल करें या सपोर्ट पेज देखें।";
+    return "हेल्पलाइन 1800-270-2222 पर कॉल क���ें या सपोर्ट पेज देखें।";
   return "मैं आपकी सहायता के लिए तैयार हूँ। परियोजना जोड़ें, और मैं चरण-दर-चरण मदद करूँगा।";
 }
 
@@ -31,30 +31,38 @@ export default function VoiceAssistant() {
   const [transcript, setTranscript] = useState<string>("");
   const [reply, setReply] = useState<string>("");
   const recRef = useRef<any>(null);
+  const runningRef = useRef(false);
 
   useEffect(() => {
     const SR: any = (window as any).webkitSpeechRecognition || (window as any).SpeechRecognition;
+    // cleanup previous instance if any
+    try { recRef.current?.abort?.(); } catch {}
     if (SR) {
       const rec = new SR();
       rec.continuous = false;
       rec.lang = lang === "bn" ? "bn-IN" : lang === "ta" ? "ta-IN" : "hi-IN";
       rec.interimResults = false;
+      rec.onstart = () => { runningRef.current = true; setListening(true); };
       rec.onresult = (e: any) => {
         const t = e.results[0][0].transcript as string;
         setTranscript(t);
         const r = getReplyHindi(t);
         setReply(r);
         synthesize(r, lang === "en" ? "en-US" : lang === "bn" ? "bn-IN" : lang === "ta" ? "ta-IN" : "hi-IN");
-        setListening(false);
       };
-      rec.onend = () => setListening(false);
-      rec.onerror = () => setListening(false);
+      const stopAll = () => { runningRef.current = false; setListening(false); };
+      rec.onend = stopAll;
+      rec.onerror = stopAll;
       recRef.current = rec;
     }
+    return () => {
+      try { recRef.current?.abort?.(); } catch {}
+    };
   }, [lang]);
 
   const start = () => {
-    if (!recRef.current) {
+    const rec = recRef.current;
+    if (!rec) {
       const text = "क्षमा करें, आपके ब्राउज़र में वॉइस सपोर्ट उपलब्ध नहीं है।";
       setReply(text);
       synthesize(text, "hi-IN");
@@ -62,8 +70,13 @@ export default function VoiceAssistant() {
     }
     setTranscript("");
     setReply("");
-    setListening(true);
-    recRef.current.start();
+    if (runningRef.current) {
+      try { rec.stop(); } catch {}
+      // start after a short delay when previous session ends
+      setTimeout(() => { if (!runningRef.current) { try { rec.start(); } catch {} } }, 300);
+    } else {
+      try { rec.start(); } catch {}
+    }
   };
 
   return (
