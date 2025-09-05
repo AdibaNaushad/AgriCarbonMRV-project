@@ -58,6 +58,9 @@ export default function Index() {
                 </div>
               </div>
               <div className="mt-4">
+                <MarketGraph />
+              </div>
+              <div className="mt-4">
                 <DataGallery />
               </div>
             </div>
