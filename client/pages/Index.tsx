@@ -56,6 +56,9 @@ export default function Index() {
                   <Badge>₹: +9,600</Badge>
                 </div>
               </div>
+              <div className="mt-4">
+                <DataGallery />
+              </div>
             </div>
             <div className="mt-3 text-xs text-muted-foreground">
               The system connects satellites to farmlands, computes carbon credits, and pays farmers in rupees.
