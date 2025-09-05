@@ -57,6 +57,13 @@
     --sidebar-border: 140 16% 88%;
 
     --sidebar-ring: 142 71% 30%;
+
+    /* Farming palette */
+    --leaf: 142 70% 35%;      /* rich green */
+    --water: 201 80% 42%;     /* irrigation blue */
+    --sky: 196 89% 46%;       /* sky blue */
+    --soil: 30 55% 35%;       /* earthy brown */
+    --sun: 48 96% 50%;        /* crop yellow */
   }
 
   .dark {
@@ -95,6 +102,13 @@
     --sidebar-accent-foreground: 0 0% 100%;
     --sidebar-border: 140 16% 22%;
     --sidebar-ring: 142 70% 45%;
+
+    /* Farming palette (dark tuned) */
+    --leaf: 142 60% 45%;
+    --water: 201 70% 55%;
+    --sky: 196 80% 60%;
+    --soil: 30 50% 45%;
+    --sun: 48 96% 55%;
   }
 }
 
