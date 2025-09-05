@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { ResponsiveContainer, AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip } from "recharts";
+import { useT } from "@/components/agri/i18n";
 
 interface ProjectRecord {
   id: string;
