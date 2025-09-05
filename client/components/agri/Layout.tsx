@@ -42,6 +42,8 @@ export function Layout({ children }: { children: React.ReactNode }) {
       .catch(() => {});
   }, []);
 
+  const [showContact, setShowContact] = useState(false);
+
   return (
     <div className="min-h-screen flex flex-col bg-gradient-to-br from-green-50 via-emerald-50 to-amber-50">
       <header className="sticky top-0 z-40 backdrop-blur bg-white/70 border-b border-border">
@@ -88,11 +90,17 @@ export function Layout({ children }: { children: React.ReactNode }) {
           <div>
             <h3 className="font-bold mb-2">Links</h3>
             <ul className="text-sm space-y-1">
-              <li><Link to="/about">About Us</Link></li>
-              <li><Link to="/contact">Contact</Link></li>
-              <li><Link to="/privacy">Privacy Policy</Link></li>
-              <li><Link to="/terms">Terms & Conditions</Link></li>
+              <li><a href="https://agricoop.gov.in/en/about-us">About Us</a></li>
+              <li><button className="underline" onClick={() => setShowContact((v) => !v)}>Contact</button></li>
+              <li><a href="https://farmer.gov.in/Content/privacy-policy.aspx">Privacy Policy</a></li>
+              <li><a href="https://farmer.gov.in/Content/terms-conditions.aspx">Terms & Conditions</a></li>
             </ul>
+            {showContact && (
+              <div className="mt-3 text-xs rounded-md border bg-white p-3">
+                <div>Farmer Helpline: <a className="text-emerald-700 underline" href="tel:18002702222">1800-270-2222</a></div>
+                <div>Official Agriculture Portal: <a className="text-emerald-700 underline" href="https://farmer.gov.in/">https://farmer.gov.in/</a></div>
+              </div>
+            )}
           </div>
           <div>
             <h3 className="font-bold mb-2">Get the App</h3>
