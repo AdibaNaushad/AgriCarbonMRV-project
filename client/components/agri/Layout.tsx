@@ -84,6 +84,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <div className="container mx-auto px-4 py-8 grid gap-6 md:grid-cols-3">
           <div>
             <h3 className="font-bold mb-2">Team</h3>
+            <p className="text-sm font-semibold text-emerald-700">Innovative Mind</p>
             <p className="text-sm">Leader Naaz (Female), Adiba (Female), Noor (Female)</p>
             <p className="text-xs text-muted-foreground mt-2">Kolkata, West Bengal</p>
           </div>
