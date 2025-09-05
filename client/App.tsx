@@ -11,7 +11,8 @@ import NotFound from "./pages/NotFound";
 import { Layout } from "@/components/agri/Layout";
 import { LanguageProvider } from "@/components/agri/Language";
 import AddProject from "./pages/AddProject";
-import Placeholder from "./pages/Placeholder";
+import Dashboard from "./pages/Dashboard";
+import Support from "./pages/Support";
 
 const queryClient = new QueryClient();
 
