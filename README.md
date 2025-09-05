@@ -1,0 +1,1 @@
+AgriCarbonMRV 🌱 is a green, farmer-friendly platform 👩‍🌾 where farmers can add projects via voice 🎙️, camera 📸, or GPS 📍, and instantly get carbon credits 🌿 + income 💰, all blockchain-verified 🔗✅. Its WOW feature ✨ is a Hindi voice assistant 🗣️ that answers farmers’ questions, making carbon markets simple, transparent & profitable 🌍💵🌳.
