@@ -6,15 +6,11 @@ import DataGallery from "@/components/agri/DataGallery";
 import MarketGraph from "@/components/agri/MarketGraph";
 import { useT } from "@/components/agri/i18n";
 import { Satellite, Sprout, Coins, Mic, ArrowRight } from "lucide-react";
-import AddProject from "./AddProject";
-import Dashboard from "./Dashboard";
-import Market from "./Market";
-import Support from "./Support";
 
 export default function Index() {
   const t = useT();
   return (
-    <div className="relative" id="top">
+    <div className="relative">
       <AnimatedBackground />
       <section className="relative container mx-auto px-4 pt-10 pb-8 sm:pt-16 sm:pb-12">
         <div className="grid lg:grid-cols-2 gap-8 items-center">
@@ -78,28 +74,12 @@ export default function Index() {
         </div>
       </section>
 
-      <section id="learn" className="container mx-auto px-4 pb-12">
+      <section id="learn" className="container mx-auto px-4 pb-16">
         <div className="grid md:grid-cols-3 gap-4">
           <Feature title={t("voice.idle")} desc="" icon={<Mic className="h-5 w-5" />} />
           <Feature title="GPS & Camera" desc="" icon={<ArrowRight className="h-5 w-5" />} />
           <Feature title="Blockchain Verified" desc="" icon={<ArrowRight className="h-5 w-5" />} />
         </div>
-      </section>
-
-      <section id="add-project" className="container mx-auto px-4 pb-12">
-        <AddProject />
-      </section>
-
-      <section id="dashboard" className="container mx-auto px-4 pb-12">
-        <Dashboard />
-      </section>
-
-      <section id="market" className="container mx-auto px-4 pb-12">
-        <Market />
-      </section>
-
-      <section id="support" className="container mx-auto px-4 pb-16">
-        <Support />
       </section>
     </div>
   );
