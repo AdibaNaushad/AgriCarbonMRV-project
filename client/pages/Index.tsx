@@ -6,6 +6,10 @@ import DataGallery from "@/components/agri/DataGallery";
 import MarketGraph from "@/components/agri/MarketGraph";
 import { useT } from "@/components/agri/i18n";
 import { Satellite, Sprout, Coins, Mic, ArrowRight } from "lucide-react";
+import AddProject from "./AddProject";
+import Dashboard from "./Dashboard";
+import Market from "./Market";
+import Support from "./Support";
 
 export default function Index() {
   const t = useT();
