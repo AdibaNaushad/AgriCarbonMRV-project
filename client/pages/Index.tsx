@@ -4,9 +4,11 @@ import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import DataGallery from "@/components/agri/DataGallery";
 import MarketGraph from "@/components/agri/MarketGraph";
+import { useT } from "@/components/agri/i18n";
 import { Satellite, Sprout, Coins, Mic, ArrowRight } from "lucide-react";
 
 export default function Index() {
+  const t = useT();
   return (
     <div className="relative">
       <AnimatedBackground />
@@ -14,20 +16,20 @@ export default function Index() {
         <div className="grid lg:grid-cols-2 gap-8 items-center">
           <div>
             <div className="inline-flex items-center gap-2 rounded-full border bg-white/70 px-3 py-1 text-xs mb-3">
-              <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" /> NABARD Hackathon
+              <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" /> {t("hero.badge")}
             </div>
             <h1 className="text-3xl sm:text-5xl font-extrabold tracking-tight leading-tight">
-              Transparent, Farmer-Friendly MRV for Carbon Markets
+              {t("hero.tagline")}
             </h1>
             <p className="mt-3 text-base sm:text-lg text-muted-foreground">
-              AI + Satellite + IoT + Blockchain → Extra Income for Farmers
+              {t("hero.subline")}
             </p>
             <div className="mt-6 flex flex-wrap gap-3">
               <Button asChild size="lg" className="bg-gradient-to-r from-green-600 to-emerald-600 shadow-lg">
-                <Link to="/add-project">Add Project</Link>
+                <Link to="/add-project">{t("cta.addProject")}</Link>
               </Button>
               <Button asChild size="lg" variant="secondary">
-                <a href="#learn">Learn More</a>
+                <a href="#learn">{t("cta.learnMore")}</a>
               </Button>
             </div>
             <div className="mt-6"><VoiceAssistant /></div>
@@ -35,9 +37,9 @@ export default function Index() {
           <div className="relative">
             <div className="rounded-2xl border bg-white/60 backdrop-blur p-4 shadow-sm">
               <div className="grid grid-cols-3 gap-3 text-center">
-                <MiniCard icon={<Satellite className="h-5 w-5 text-emerald-600" />} title="Satellite" desc="Imagery & MRV" />
-                <MiniCard icon={<Sprout className="h-5 w-5 text-green-600" />} title="Farms" desc="GPS tagged" />
-                <MiniCard icon={<Coins className="h-5 w-5 text-lime-600" />} title="Income" desc="Credits → ₹" />
+                <MiniCard icon={<Satellite className="h-5 w-5 text-emerald-600" />} title="Satellite" desc={t("mini.satellite")} />
+                <MiniCard icon={<Sprout className="h-5 w-5 text-green-600" />} title="Farms" desc={t("mini.farms")} />
+                <MiniCard icon={<Coins className="h-5 w-5 text-lime-600" />} title="Income" desc={t("mini.income")} />
               </div>
               <div className="mt-4 relative h-56 rounded-xl bg-gradient-to-br from-emerald-100 to-green-50 overflow-hidden">
                 <svg className="absolute inset-0 w-full h-full" viewBox="0 0 400 200" fill="none">
@@ -74,9 +76,9 @@ export default function Index() {
 
       <section id="learn" className="container mx-auto px-4 pb-16">
         <div className="grid md:grid-cols-3 gap-4">
-          <Feature title="Voice in Hindi" desc="Press mic, ask questions. Hear answers in Hindi with on-screen text." icon={<Mic className="h-5 w-5" />} />
-          <Feature title="GPS & Camera" desc="Auto-detect farm, upload via camera or gallery, or speak details." icon={<ArrowRight className="h-5 w-5" />} />
-          <Feature title="Blockchain Verified" desc="Tamper-proof SHA-256 hash ensures trust and transparency." icon={<ArrowRight className="h-5 w-5" />} />
+          <Feature title={t("voice.idle")} desc="" icon={<Mic className="h-5 w-5" />} />
+          <Feature title="GPS & Camera" desc="" icon={<ArrowRight className="h-5 w-5" />} />
+          <Feature title="Blockchain Verified" desc="" icon={<ArrowRight className="h-5 w-5" />} />
         </div>
       </section>
     </div>
