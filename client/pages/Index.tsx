@@ -3,6 +3,7 @@ import VoiceAssistant from "@/components/agri/VoiceAssistant";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import DataGallery from "@/components/agri/DataGallery";
+import MarketGraph from "@/components/agri/MarketGraph";
 import { Satellite, Sprout, Coins, Mic, ArrowRight } from "lucide-react";
 
 export default function Index() {
