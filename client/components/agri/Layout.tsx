@@ -83,6 +83,9 @@ export function Layout({ children }: { children: React.ReactNode }) {
 
       <main className="flex-1">{children}</main>
 
+      {/* Floating Hindi voice assistant */}
+      <FloatingVoice />
+
       <footer className="mt-12 bg-gradient-to-b from-emerald-900 to-emerald-950 text-emerald-100">
         <div className="container mx-auto px-4 py-10 grid gap-8 md:grid-cols-4">
           <div>
