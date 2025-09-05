@@ -3,6 +3,7 @@ import { useLanguage, LANG_LABELS, LangCode } from "./Language";
 import { Button } from "@/components/ui/button";
 import { useEffect, useState } from "react";
 import { useT } from "./i18n";
+import { Leaf, Phone, Mail, MapPin, Facebook, Twitter, Instagram, Youtube, Apple, Play } from "lucide-react";
 
 function NavItem({ to, children }: { to: string; children: React.ReactNode }) {
   return (
@@ -82,38 +83,66 @@ export function Layout({ children }: { children: React.ReactNode }) {
 
       <main className="flex-1">{children}</main>
 
-      <footer className="mt-12 border-t bg-white/70">
-        <div className="container mx-auto px-4 py-8 grid gap-6 md:grid-cols-3">
+      <footer className="mt-12 bg-gradient-to-b from-emerald-900 to-emerald-950 text-emerald-100">
+        <div className="container mx-auto px-4 py-10 grid gap-8 md:grid-cols-4">
           <div>
-            <h3 className="font-bold mb-2">{t("footer.team")}</h3>
-            <p className="text-sm font-semibold text-emerald-700">{t("footer.team.name")}</p>
-            <p className="text-sm">Leader Naaz (Female), Adiba (Female), Noor (Female)</p>
-            <p className="text-xs text-muted-foreground mt-2">{t("footer.location")}</p>
-          </div>
-          <div>
-            <h3 className="font-bold mb-2">{t("footer.links")}</h3>
-            <ul className="text-sm space-y-1">
-              <li><a href="https://agricoop.gov.in/en/about-us">{t("footer.about")}</a></li>
-              <li><button className="underline" onClick={() => setShowContact((v) => !v)}>{t("footer.contact")}</button></li>
-              <li><a href="https://farmer.gov.in/Content/privacy-policy.aspx">{t("footer.privacy")}</a></li>
-              <li><a href="https://farmer.gov.in/Content/terms-conditions.aspx">{t("footer.terms")}</a></li>
-            </ul>
-            {showContact && (
-              <div className="mt-3 text-xs rounded-md border bg-white p-3">
-                <div>{t("footer.helpline")}: <a className="text-emerald-700 underline" href="tel:18002702222">1800-270-2222</a></div>
-                <div>{t("footer.portal")}: <a className="text-emerald-700 underline" href="https://farmer.gov.in/">https://farmer.gov.in/</a></div>
+            <div className="flex items-center gap-2">
+              <span className="h-9 w-9 rounded-lg bg-emerald-700/30 border border-emerald-600/40 inline-flex items-center justify-center">
+                <Leaf className="h-5 w-5 text-emerald-300" />
+              </span>
+              <div>
+                <div className="font-bold">Innovative Mind</div>
+                <div className="text-xs text-emerald-200">Carbon Credit Solutions for Indian Farmers</div>
               </div>
-            )}
+            </div>
+            <p className="text-sm mt-3 text-emerald-200/90">The most trusted and easy-to-use carbon credit platform for Indian farmers. Our mission is to connect smallholder farmers with carbon markets.</p>
+            <div className="flex gap-3 mt-3">
+              <a href="#" aria-label="Facebook" className="h-8 w-8 rounded-md bg-emerald-800/60 inline-flex items-center justify-center border border-emerald-700/60"><Facebook className="h-4 w-4" /></a>
+              <a href="#" aria-label="Twitter" className="h-8 w-8 rounded-md bg-emerald-800/60 inline-flex items-center justify-center border border-emerald-700/60"><Twitter className="h-4 w-4" /></a>
+              <a href="#" aria-label="Instagram" className="h-8 w-8 rounded-md bg-emerald-800/60 inline-flex items-center justify-center border border-emerald-700/60"><Instagram className="h-4 w-4" /></a>
+              <a href="#" aria-label="YouTube" className="h-8 w-8 rounded-md bg-emerald-800/60 inline-flex items-center justify-center border border-emerald-700/60"><Youtube className="h-4 w-4" /></a>
+            </div>
           </div>
+
           <div>
-            <h3 className="font-bold mb-2">{t("footer.getapp")}</h3>
-            <div className="flex gap-3">
-              <a className="h-10 px-4 rounded-md bg-black text-white text-sm inline-flex items-center" href="#" aria-label="Play Store">Play Store</a>
-              <a className="h-10 px-4 rounded-md bg-black text-white text-sm inline-flex items-center" href="#" aria-label="App Store">App Store</a>
+            <div className="font-bold mb-2">Quick Links</div>
+            <ul className="text-sm space-y-1 text-emerald-100/90">
+              <li><a href="https://agricoop.gov.in/en/about-us">About Us</a></li>
+              <li><Link to="/support">Support</Link></li>
+              <li><a href="https://farmer.gov.in/Content/privacy-policy.aspx">Privacy Policy</a></li>
+              <li><a href="https://farmer.gov.in/Content/terms-conditions.aspx">Terms & Conditions</a></li>
+            </ul>
+          </div>
+
+          <div>
+            <div className="font-bold mb-2">Support</div>
+            <ul className="text-sm space-y-1 text-emerald-100/90">
+              <li><Link to="/support">Support</Link></li>
+              <li><Link to="/support">FAQ</Link></li>
+              <li><Link to="/support">Help Center</Link></li>
+              <li><Link to="/support">Tutorials</Link></li>
+            </ul>
+          </div>
+
+          <div>
+            <div className="font-bold mb-2">Contact Info</div>
+            <ul className="text-sm space-y-2 text-emerald-100/90">
+              <li className="flex items-center gap-2"><Phone className="h-4 w-4" /> +91 6246-789-012</li>
+              <li className="flex items-center gap-2"><Mail className="h-4 w-4" /> support@innovativemind.in</li>
+              <li className="flex items-center gap-2"><MapPin className="h-4 w-4" /> New Delhi, India</li>
+            </ul>
+            <div className="mt-4">
+              <div className="text-xs mb-2 text-emerald-200">Download Mobile App:</div>
+              <div className="flex gap-2">
+                <a href="#" className="h-10 px-3 rounded-md bg-black text-white text-xs inline-flex items-center gap-2"><Apple className="h-4 w-4" /> App Store</a>
+                <a href="#" className="h-10 px-3 rounded-md bg-black text-white text-xs inline-flex items-center gap-2"><Play className="h-4 w-4" /> Google Play</a>
+              </div>
             </div>
           </div>
         </div>
-        <div className="text-center text-xs text-muted-foreground pb-6">© {new Date().getFullYear()} AgriCarbonMRV</div>
+        <div className="border-t border-emerald-800/50">
+          <div className="container mx-auto px-4 py-4 text-xs text-emerald-200">© {new Date().getFullYear()} Innovative Mind. All rights reserved.</div>
+        </div>
       </footer>
     </div>
   );
